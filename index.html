@@ -5,236 +5,275 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>航空人員學科檢定系統</title>
 <style>
-  :root{
-    --blue-text:#1456c2;
-    --border:#c9d2dc;
-    --red:#d32f2f;
-    --gray-btn:#6c7686;
-    --gray-btn-dark:#565f6e;
-    --blue-btn:#1565c0;
-    --blue-btn-dark:#0d4a96;
-    --red-btn:#d32f2f;
-    --red-btn-dark:#b32424;
-    --row-label-bg:#fafbfc;
+  :root {
+    --primary-color: #1a53ff;
+    --primary-hover: #003cd2;
+    --bg-main: #f4f6fa;
+    --card-bg: #ffffff;
+    --text-main: #2d3748;
+    --text-muted: #718096;
+    --border-color: #e2e8f0;
+    --danger-color: #e53e3e;
+    --danger-hover: #c53030;
+    --success-color: #38a169;
+    --success-bg: #f0fff4;
+    --warning-color: #dd6b20;
+    --row-label-bg: #f7fafc;
   }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:"Microsoft JhengHei","PingFang TC","Heiti TC",Arial,sans-serif;
-    background:#eef1f5;
-    color:#222;
-  }
-  .hidden{display:none !important;}
 
-  /* ---------- 頂部列 ---------- */
-  .top-bar{
-    background:#fff;
-    border-bottom:1px solid var(--border);
-    padding:14px 26px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+  * { box-sizing: border-box; }
+  
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+    background: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
   }
-  .top-bar h1{margin:0;font-size:20px;font-weight:700;color:var(--blue-text);}
-  .avatar-btn{
-    width:34px;height:34px;border-radius:50%;
-    background:#dbe3ee;color:#5a6b85;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;font-size:16px;border:1px solid var(--border);
-    user-select:none;
+
+  .hidden { display: none !important; }
+
+  /* ---------- 頂部導覽列 ---------- */
+  .top-bar {
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
   }
-  .avatar-btn:hover{background:#c9d6e6;}
+  .top-bar h1 { 
+    margin: 0; 
+    font-size: 22px; 
+    font-weight: 700; 
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
+  }
+  .avatar-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #edf2f7; color: #4a5568;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; border: 1px solid var(--border-color);
+    user-select: none; transition: all 0.2s;
+  }
+  .avatar-btn:hover { background: #e2e8f0; transform: scale(1.05); }
+
+  /* ---------- 面板通用樣式 ---------- */
+  .container-panel {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    overflow: hidden;
+  }
+  .panel-head {
+    background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+    color: #fff;
+    padding: 18px 24px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .panel-body { padding: 24px; }
 
   /* ---------- 單元選擇畫面 ---------- */
-  #unitScreen{max-width:700px;margin:50px auto;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
-  #unitScreen .panel-head{background:var(--blue-text);color:#fff;padding:14px 22px;border-radius:6px 6px 0 0;font-size:16px;font-weight:600;}
-  #unitScreen .panel-body{padding:22px 22px 26px;}
-  #unitScreen p.hint{color:#5a6472;font-size:13px;margin-top:0;margin-bottom:16px;}
-  .unit-list{display:flex;flex-direction:column;gap:8px;max-height:560px;overflow-y:auto;}
-  .unit-item{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:4px;padding:12px 16px;background:#fafcff;}
-  .unit-item.empty{background:#f5f6f8;}
-  .unit-name{font-size:14px;font-weight:700;color:#163a63;}
-  .unit-count{font-size:12px;color:#6b7686;margin-top:2px;}
-  .btn-start{background:var(--blue-text);color:#fff;border:none;border-radius:4px;padding:8px 16px;font-size:13px;cursor:pointer;}
-  .btn-start:hover{filter:brightness(1.1);}
-  .btn-start:disabled{background:#aab4c2;cursor:not-allowed;}
+  #unitScreen { max-width: 800px; margin: 40px auto; padding: 0 16px; }
+  p.hint { color: var(--text-muted); font-size: 14px; margin-top: 0; margin-bottom: 20px; }
+  
+  .unit-list { 
+    display: flex; flex-direction: column; gap: 12px; 
+    max-height: 580px; overflow-y: auto; padding-right: 4px;
+  }
+  .unit-item {
+    display: flex; justify-content: space-between; align-items: center;
+    border: 1px solid var(--border-color); border-radius: 8px;
+    padding: 16px 20px; background: #fff; transition: all 0.2s;
+  }
+  .unit-item:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.03); border-color: #cbd5e1; }
+  .unit-item.empty { background: #f8fafc; opacity: 0.7; }
+  .unit-name { font-size: 15px; font-weight: 700; color: #1e293b; }
+  .unit-count { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  
+  .btn-start {
+    background: var(--primary-color); color: #fff; border: none; border-radius: 6px;
+    padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s;
+  }
+  .btn-start:hover { background: var(--primary-hover); }
+  .btn-start:disabled { background: #cbd5e1; cursor: not-allowed; }
 
   /* ---------- 題數選擇畫面 ---------- */
-  #countScreen{max-width:520px;margin:60px auto;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.08);}
-  #countScreen .panel-head{background:var(--blue-text);color:#fff;padding:14px 22px;border-radius:6px 6px 0 0;font-size:16px;font-weight:600;}
-  #countScreen .panel-body{padding:24px 26px 28px;}
-  #countScreen .row{margin-bottom:18px;}
-  #countScreen label{display:block;font-size:13px;color:#3a4453;font-weight:700;margin-bottom:6px;}
-  #countInput{
-    width:100%;padding:10px 12px;font-size:16px;border:1px solid var(--border);border-radius:4px;
+  #countScreen { max-width: 520px; margin: 60px auto; padding: 0 16px; }
+  #countInput {
+    width: 100%; padding: 12px; font-size: 16px; 
+    border: 1px solid var(--border-color); border-radius: 6px;
+    transition: border-color 0.15s; margin-top: 6px;
   }
-  .count-actions{display:flex;gap:10px;margin-top:22px;}
-  .count-actions button{flex:1;padding:11px 0;border-radius:5px;border:none;font-size:14px;font-weight:700;cursor:pointer;color:#fff;}
-
-  /* ---------- 測驗畫面整體 ---------- */
-  #quizScreen{max-width:1040px;margin:20px auto 60px;padding:0 16px;}
-
-  table.info-table, table.question-table{
-    width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);margin-bottom:14px;
+  #countInput:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(26,83,255,0.1); }
+  .count-actions { display: flex; gap: 12px; margin-top: 24px; }
+  .count-actions button { 
+    flex: 1; padding: 12px 0; border-radius: 6px; border: none; 
+    font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.15s;
   }
-  table.info-table td, table.question-table td{
-    border:1px solid var(--border);padding:12px 18px;font-size:14px;vertical-align:middle;
+
+  /* ---------- 通用按鈕配色 ---------- */
+  .btn-gray { background: #4a5568; color: #fff; }
+  .btn-gray:hover { background: #323a45; }
+  .btn-blue { background: var(--primary-color); color: #fff; }
+  .btn-blue:hover { background: var(--primary-hover); }
+  .btn-red { background: var(--danger-color); color: #fff; }
+  .btn-red:hover { background: var(--danger-hover); }
+
+  /* ---------- 考試模式：單題測驗畫面 ---------- */
+  #quizScreen { max-width: 1040px; margin: 24px auto 60px; padding: 0 16px; }
+
+  table.info-table, table.question-table {
+    width: 100%; border-collapse: separate; border-spacing: 0; background: #fff;
+    border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 16px;
+    overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.02);
   }
-  td.label-cell{background:var(--row-label-bg);color:var(--blue-text);font-weight:700;width:1%;white-space:nowrap;}
-  td.label-cell .en{display:block;font-weight:500;font-size:11px;color:#5d7aa8;margin-top:2px;white-space:nowrap;}
-  td.value-cell{color:#222;font-size:26px;}
-  td.value-cell.red{color:var(--red);font-weight:700;}
-  #timer.warn{animation:pulse 1s infinite;}
-  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
-  table.question-table td.value-cell{line-height:1.7;}
+  table.info-table td, table.question-table td {
+    border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color);
+    padding: 14px 20px; font-size: 14px; vertical-align: middle;
+  }
+  table.info-table tr:last-child td, table.question-table tr:last-child td { border-bottom: none; }
+  table.info-table td:last-child, table.question-table td:last-child { border-right: none; }
+  
+  td.label-cell { background: var(--row-label-bg); color: #2b6cb0; font-weight: 700; width: 1%; white-space: nowrap; }
+  td.label-cell .en { display: block; font-weight: 500; font-size: 11px; color: #718096; margin-top: 2px; }
+  td.value-cell { color: var(--text-main); font-size: 15px; }
+  td.value-cell.red { color: var(--danger-color); font-weight: 700; }
+  
+  #timer.warn { animation: pulse 1s infinite; color: var(--danger-color); font-weight: 800; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
 
-  /* ---------- 按鈕列 ---------- */
-  .nav-bar{display:grid;grid-template-columns:1fr 1fr 1.3fr 1fr 1fr;gap:10px;margin-bottom:14px;}
-  .nav-bar button, .nav-bar select{height:62px;border-radius:6px;border:none;font-family:inherit;cursor:pointer;}
-  .nav-bar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;font-size:14px;font-weight:700;line-height:1.3;transition:filter .15s;}
-  .nav-bar button .en{font-size:11px;font-weight:500;opacity:.9;}
-  .nav-bar button:hover{filter:brightness(1.08);}
-  .nav-bar button:disabled{opacity:.45;cursor:not-allowed;filter:none;}
-  .btn-gray{background:var(--gray-btn);}
-  .btn-gray:hover{background:var(--gray-btn-dark);}
-  .btn-blue{background:var(--blue-btn);}
-  .btn-blue:hover{background:var(--blue-btn-dark);}
-  .btn-red{background:var(--red-btn);}
-  .btn-red:hover{background:var(--red-btn-dark);}
-  #jumpSelect{border:1px solid var(--border);background:#fff;color:#222;font-size:15px;padding:0 10px;text-align:center;}
+  /* 導覽按鈕列 */
+  .nav-bar { 
+    display: grid; grid-template-columns: 1.2fr 1.2fr 1.5fr 1.2fr 1.2fr; gap: 10px; margin-bottom: 16px; 
+  }
+  @media (max-width: 600px) {
+    .nav-bar { grid-template-columns: 1fr 1fr; }
+    #jumpSelect { grid-column: span 2; order: -1; }
+  }
+  .nav-bar button, .nav-bar select { height: 54px; border-radius: 8px; border: none; font-family: inherit; cursor: pointer; }
+  .nav-bar button {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; line-height: 1.2; transition: all 0.15s;
+  }
+  .nav-bar button .en { font-size: 11px; font-weight: 500; opacity: 0.85; margin-top: 1px; }
+  .nav-bar button:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+  #jumpSelect { border: 1px solid var(--border-color); background: #fff; color: var(--text-main); font-size: 15px; padding: 0 12px; font-weight: 600; }
 
-  /* ---------- 答案選項 ---------- */
-  .option-row{display:flex;align-items:flex-start;gap:10px;padding:8px 4px;cursor:pointer;border-radius:4px;}
-  .option-row:hover{background:#f3f7fd;}
-  .option-row input{margin-top:3px;flex:0 0 auto;cursor:pointer;}
-  .option-row label{font-size:15px;line-height:1.6;cursor:pointer;}
+  /* 傳統單題選項 */
+  #optionsArea { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .option-row {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+    cursor: pointer; border-radius: 8px; border: 1px solid var(--border-color);
+    background: #fff; transition: all 0.15s;
+  }
+  .option-row:hover { background: #f8fafc; border-color: #cbd5e1; }
+  .option-row input[type="radio"] { 
+    width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: var(--primary-color);
+  }
+  .option-row label { font-size: 15px; font-weight: 500; cursor: pointer; width: 100%; }
+
+  /* ---------- ⚡ 練習模式專屬：瀑布流全顯介面樣式 ⚡ ---------- */
+  #practiceScreen { max-width: 960px; margin: 30px auto 100px; padding: 0 16px; }
+  .practice-title-box { 
+    background: #fff; border: 1px solid var(--border-color); border-radius: 12px; 
+    padding: 18px 24px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .practice-title-box h2 { margin: 0; font-size: 18px; color: var(--primary-color); }
+  
+  .practice-card { 
+    background: #fff; border: 1px solid var(--border-color); border-radius: 12px; 
+    margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); overflow: hidden;
+  }
+  .practice-head { 
+    background: var(--row-label-bg); padding: 14px 20px; font-weight: bold; 
+    border-bottom: 1px solid var(--border-color); color: #2b6cb0; font-size: 14px; 
+    display: flex; justify-content: space-between; 
+  }
+  .practice-body { padding: 20px; }
+  .practice-question { font-size: 16px; line-height: 1.6; margin-bottom: 18px; font-weight: 600; color: var(--text-main); }
+  
+  .practice-option-row { 
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px; 
+    border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 10px; 
+    cursor: pointer; font-size: 15px; transition: all 0.15s; background: #fff;
+  }
+  .practice-option-row:hover { background: #f8fafc; border-color: #cbd5e1; }
+  .practice-option-row input { width: 18px; height: 18px; margin: 0; cursor: pointer; }
+  .practice-option-row label { cursor: pointer; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+  .practice-badge-right { font-size: 12px; font-weight: bold; padding: 4px 12px; border-radius: 20px; color: #fff; white-space: nowrap; }
+  
+  /* 即時答題對錯底色與標籤外觀 */
+  .practice-option-row.state-correct { background: var(--success-bg) !important; border-color: var(--success-color) !important; color: #22543d; font-weight: 600; }
+  .practice-option-row.state-correct .practice-badge-right { background: var(--success-color); }
+  .practice-option-row.state-wrong { background: #fff5f5 !important; border-color: var(--danger-color) !important; color: #742a2a; font-weight: 600; }
+  .practice-option-row.state-wrong .practice-badge-right { background: var(--danger-color); }
 
   /* ---------- 自訂彈窗 ---------- */
-  .modal-overlay{position:fixed;inset:0;background:rgba(20,30,45,.45);display:flex;align-items:center;justify-content:center;z-index:1000;}
-  .modal-box{background:#fff;border-radius:8px;max-width:380px;width:90%;padding:24px 24px 20px;box-shadow:0 8px 24px rgba(0,0,0,.25);text-align:center;}
-  .modal-box p{font-size:15px;color:#27314a;line-height:1.6;margin:0 0 20px;}
-  .modal-actions{display:flex;gap:12px;justify-content:center;}
-  .modal-actions button{flex:1;padding:10px 0;border-radius:5px;border:none;font-size:14px;font-weight:700;cursor:pointer;color:#fff;}
+  .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(2px); }
+  .modal-box { background: #fff; border-radius: 12px; max-width: 400px; width: 90%; padding: 28px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); text-align: center; }
+  .modal-box p { font-size: 16px; color: var(--text-main); font-weight: 600; line-height: 1.6; margin: 0 0 24px; }
+  .modal-actions { display: flex; gap: 12px; justify-content: center; }
+  .modal-actions button { flex: 1; padding: 11px 0; border-radius: 6px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; }
 
-  /* ---------- 結果畫面 ---------- */
-  #resultScreen{max-width:880px;margin:40px auto 60px;padding:0 16px;}
-  .score-card{
-    background:#fff;border:1px solid var(--border);border-radius:6px;
-    padding:30px 26px;margin-bottom:20px;text-align:center;
+  /* ---------- 考試結果畫面 ---------- */
+  #resultScreen { max-width: 880px; margin: 40px auto 100px; padding: 0 16px; }
+  .score-card {
+    background: #fff; border: 1px solid var(--border-color); border-radius: 12px;
+    padding: 36px 24px; margin-bottom: 24px; text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
   }
-  .score-card .score-label{font-size:13px;color:#6b7686;margin-bottom:8px;}
-  .score-card .score-value{font-size:48px;font-weight:800;color:var(--blue-text);}
-  .score-card .score-value.fail{color:var(--red);}
-  .score-card .score-sub{font-size:13px;color:#6b7686;margin-top:6px;}
-  table.result-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);}
-  table.result-table th,table.result-table td{border:1px solid var(--border);padding:10px 12px;font-size:13px;text-align:left;vertical-align:top;}
-  table.result-table th{background:var(--row-label-bg);color:var(--blue-text);}
-  .ok{color:#2e7d32;font-weight:700;}
-  .ng{color:var(--red);font-weight:700;}
-  .blank{color:#9aa3af;font-weight:700;}
+  .score-card .score-label { font-size: 14px; color: var(--text-muted); font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+  .score-card .score-value { font-size: 56px; font-weight: 800; color: var(--primary-color); }
+  .score-card .score-value.fail { color: var(--danger-color); }
+  .score-card .score-sub { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-top: 8px; }
 
-  /* ---------- 錯題過濾切換鍵 (Filter Tabs) ---------- */
-  .filter-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 8px;
-  }
+  /* 錯題過濾鍵 */
+  .filter-tabs { display: flex; gap: 10px; margin-bottom: 18px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
   .filter-tab {
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 700;
-    border: 1px solid var(--border);
-    background: #fff;
-    color: #565f6e;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 8px 18px; font-size: 14px; font-weight: 700; border: 1px solid var(--border-color);
+    background: #fff; color: var(--text-muted); border-radius: 6px; cursor: pointer; transition: all 0.2s;
   }
-  .filter-tab:hover {
-    background: #f0f4f8;
-  }
-  .filter-tab.active {
-    background: var(--blue-text);
-    color: #fff;
-    border-color: var(--blue-text);
-  }
-  .filter-empty-hint {
-    background: #fff;
-    border: 1px dashed var(--border);
-    border-radius: 6px;
-    padding: 40px;
-    text-align: center;
-    color: #6c7686;
-    font-size: 15px;
-  }
+  .filter-tab:hover { background: #f1f5f9; color: var(--text-main); }
+  .filter-tab.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+  .filter-empty-hint { background: #fff; border: 2px dashed var(--border-color); border-radius: 12px; padding: 48px; text-align: center; color: var(--text-muted); font-size: 15px; }
 
-  /* ---------- Sticky 浮動按鈕列 ---------- */
+  /* Sticky 底部固定浮動按鈕列 */
   .sticky-action-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.96);
-    border-top: 1px solid var(--border);
-    padding: 12px 24px;
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    box-shadow: 0 -3px 12px rgba(0,0,0,0.08);
-    z-index: 999;
+    position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95);
+    border-top: 1px solid var(--border-color); padding: 8px 24px; display: flex; justify-content: center;
+    gap: 100px; box-shadow: 0 -4px 12px rgba(0,0,0,0.05); z-index: 999; backdrop-filter: blur(6px);
   }
-  .sticky-action-bar button {
-    min-width: 140px;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    color: #fff;
-    transition: background 0.15s;
-  }
-  .btn-retry {
-    background: var(--blue-btn);
-  }
-  .btn-retry:hover {
-    background: var(--blue-btn-dark);
-  }
-  .btn-home {
-    background: var(--gray-btn);
-  }
-  .btn-home:hover {
-    background: var(--gray-btn-dark);
-  }
+  .sticky-action-bar button { min-width: 400px; padding: 8px 28px; font-size: 18px; font-weight: 700; border-radius: 6px; border: none; cursor: pointer; transition: background 0.15s; }
 
-  /* ---------- 逐題檢討卡片 ---------- */
-  .review-card{background:#fff;border:1px solid var(--border);border-radius:6px;margin-bottom:14px;overflow:hidden;}
-  .review-head{
-    display:flex;justify-content:space-between;align-items:center;
-    background:var(--row-label-bg);border-bottom:1px solid var(--border);
-    padding:10px 16px;font-weight:700;color:#163a63;font-size:14px;
+  /* 考試檢討卡片 */
+  .review-card { background: #fff; border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 16px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .review-head {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--row-label-bg); border-bottom: 1px solid var(--border-color);
+    padding: 12px 20px; font-weight: 700; color: #2d3748; font-size: 14px;
   }
-  .review-badge{font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px;color:#fff;}
-  .review-badge.ok{background:#2e7d32;}
-  .review-badge.ng{background:var(--red);}
-  .review-badge.blank{background:#9aa3af;}
-  .review-body{padding:16px 18px 18px;}
-  .review-question{font-size:15px;line-height:1.7;margin-bottom:14px;}
-  .review-option{
-    display:flex;align-items:flex-start;gap:8px;padding:8px 12px;
-    border:1px solid var(--border);border-radius:4px;margin-bottom:6px;
-    font-size:14px;line-height:1.6;
+  .review-badge { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; color: #fff; }
+  .review-badge.ok { background: var(--success-color); }
+  .review-badge.ng { background: var(--danger-color); }
+  .review-badge.blank { background: #a0aec0; }
+  .review-body { padding: 20px; }
+  .review-question { font-size: 16px; font-weight: 600; line-height: 1.6; margin-bottom: 16px; }
+  
+  .review-option {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px;
+    border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 8px; font-size: 14px; background: #fff;
   }
-  .review-option .opt-tag{
-    margin-left:auto;flex:0 0 auto;font-size:11px;font-weight:700;
-    padding:2px 9px;border-radius:10px;color:#fff;white-space:nowrap;
-  }
-  .review-option.is-correct{background:#eaf7ec;border-color:#2e7d32;}
-  .review-option.is-correct .opt-tag{background:#2e7d32;}
-  .review-option.is-wrong-selected{background:#fdecec;border-color:var(--red);}
-  .review-option.is-wrong-selected .opt-tag{background:var(--red);}
+  .review-option .opt-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; color: #fff; white-space: nowrap; }
+  .review-option.is-correct { background: var(--success-bg); border-color: var(--success-color); color: #22543d; font-weight: 600; }
+  .review-option.is-correct .opt-tag { background: var(--success-color); }
+  .review-option.is-wrong-selected { background: #fff5f5; border-color: var(--danger-color); color: #742a2a; font-weight: 600; }
+  .review-option.is-wrong-selected .opt-tag { background: var(--danger-color); }
 </style>
 </head>
 <body>
@@ -245,29 +284,45 @@
 </div>
 
 <div id="unitScreen">
-  <div class="panel-head">請選擇練習單元</div>
-  <div class="panel-body">
-    <p class="hint">選擇單元後，可自訂本次要測驗的題數，作答時間將依題數自動計算。</p>
-    <div class="unit-list" id="unitList"></div>
+  <div class="container-panel">
+    <div class="panel-head">請選擇練習單元</div>
+    <div class="panel-body">
+      <p class="hint">選擇單元後，可自訂本次要測驗的題數，作答時間將依題數自動計算。</p>
+      <div class="unit-list" id="unitList"></div>
+    </div>
   </div>
 </div>
 
 <div id="countScreen" class="hidden">
-  <div class="panel-head" id="countPanelHead">設定測驗題數</div>
-  <div class="panel-body">
-    <div class="row">
-      <label>本次要測驗的題數（題庫共 <span id="maxAvailableText">0</span> 題）</label>
-      <input type="number" id="countInput" min="1" value="1">
-    </div>
-    <div class="count-actions">
-      <button class="btn-gray" id="countBackBtn">返回單元選擇</button>
-      <button class="btn-blue" id="countStartBtn">開始作答</button>
+  <div class="container-panel">
+    <div class="panel-head" id="countPanelHead">設定測驗題數</div>
+    <div class="panel-body">
+      <div style="margin-bottom: 20px;">
+        <label style="font-size: 14px; color: #4a5568; font-weight: 700;">本次要測驗的題數（題庫共 <span id="maxAvailableText" style="color:var(--primary-color);">0</span> 題）</label>
+        <input type="number" id="countInput" min="1" value="1">
+      </div>
+      
+      <div style="margin-bottom: 10px;">
+        <label style="font-size: 14px; color: #4a5568; font-weight: 700; display: block; margin-bottom: 8px;">請選擇作答模式</label>
+        <div style="display: flex; gap: 24px; background: #f8fafc; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px;">
+          <label style="display: inline-flex; align-items: center; cursor: pointer; font-size: 14px; font-weight: 600;">
+            <input type="radio" name="quizMode" value="exam" checked style="width: auto; height: auto; margin-right: 8px; accent-color: var(--primary-color);"> 考試模式
+          </label>
+          <label style="display: inline-flex; align-items: center; cursor: pointer; font-size: 14px; font-weight: 600;">
+            <input type="radio" name="quizMode" value="practice" style="width: auto; height: auto; margin-right: 8px; accent-color: var(--primary-color);"> 練習模式
+          </label>
+        </div>
+      </div>
+
+      <div class="count-actions">
+        <button class="btn-gray" id="countBackBtn">返回單元選擇</button>
+        <button class="btn-blue" id="countStartBtn">開始作答</button>
+      </div>
     </div>
   </div>
 </div>
 
 <div id="quizScreen" class="hidden">
-
   <table class="info-table">
     <tr>
       <td class="label-cell">剩餘時間<span class="en">Remaining Time</span></td>
@@ -277,9 +332,9 @@
     </tr>
     <tr>
       <td class="label-cell">題數<span class="en">Number of Questions</span></td>
-      <td class="value-cell" id="totalCount">0</td>
+      <td class="value-cell" id="totalCount" style="font-weight: 600;">0</td>
       <td class="label-cell">未作答題數<span class="en">Unanswered Questions</span></td>
-      <td class="value-cell" id="unansweredCount">0</td>
+      <td class="value-cell red" id="unansweredCount">0</td>
     </tr>
   </table>
 
@@ -298,7 +353,7 @@
     </tr>
     <tr>
       <td class="label-cell">題目<span class="en">Question</span></td>
-      <td class="value-cell" id="questionText"></td>
+      <td class="value-cell" id="questionText" style="font-weight: 600;"></td>
     </tr>
     <tr>
       <td class="label-cell">考生答案<span class="en">Answer</span></td>
@@ -309,6 +364,20 @@
       <td class="value-cell"><div id="optionsArea"></div></td>
     </tr>
   </table>
+</div>
+
+<div id="practiceScreen" class="hidden">
+  <div class="practice-title-box">
+    <h2 id="practiceUnitTitle">練習單元：－</h2>
+    <div style="font-size: 14px; color: var(--text-muted); font-weight: 600;" id="practiceProgressText">總題數：0 題</div>
+  </div>
+  
+  <div id="practiceContainer"></div>
+
+  <div class="sticky-action-bar">
+    <button class="btn-blue" id="practiceRetryBtn">再測一次</button>
+    <button class="btn-gray" id="practiceBackBtn">回主頁 (選擇單元)</button>
+  </div>
 </div>
 
 <div id="resultScreen" class="hidden">
@@ -324,12 +393,11 @@
   </div>
 
   <div id="reviewList"></div>
-
   <div style="height: 80px;"></div>
 
   <div class="sticky-action-bar">
-    <button class="btn-retry" id="retryBtn">再測一次</button>
-    <button class="btn-home" id="backBtn">回主頁 (選擇單元)</button>
+    <button class="btn-blue" id="retryBtn">再測一次</button>
+    <button class="btn-gray" id="backBtn">回主頁 (選擇單元)</button>
   </div>
 </div>
 
@@ -337,16 +405,16 @@
   <div class="modal-box">
     <p id="modalMessage"></p>
     <div class="modal-actions">
-      <button id="modalCancelBtn" class="btn-gray" style="background:var(--gray-btn);">取消</button>
-      <button id="modalConfirmBtn" class="btn-red" style="background:var(--red-btn);">確定</button>
+      <button id="modalCancelBtn" class="btn-gray">取消</button>
+      <button id="modalConfirmBtn" class="btn-red">確定</button>
     </div>
   </div>
 </div>
-
 <script src="m15_data.js"></script>
+<script src="m11_data.js"></script>
 
 <script>
-/* ============ 航空檢定題數對照設定 ============ */
+/* ============ 航空檢定單元基本配置 ============ */
 const UNIT_CONFIG = {
   "M1 MATHEMATICS": { defaultCount: 32 },
   "M2 PHYSICS": { defaultCount: 52 },
@@ -363,35 +431,28 @@ const UNIT_CONFIG = {
   "M17 PROPELLER": { defaultCount: 32 }
 };
 
-/* ============ 空題庫容器（等待 JS 檔案注入題目） ============ */
 const QUESTION_BANK = {
-  "M1 MATHEMATICS": [],
-  "M2 PHYSICS": [],
-  "M3 ELECTRICAL FUNDAMENTAL": [],
-  "M4 ELECTRONICS FUNDAMENTAL": [],
-  "M5 DIGITAL TECHNIQUES / ELECTRONIC INSTRUMENT SYSTEMS": [],
-  "M6 MATERIAL & HARDWARE": [],
-  "M7 MAINTENANCE PRACTICE": [],
-  "M8 AERODYNAMICS": [],
-  "M9 HUMAN FACTOR": [],
-  "M10 AVIATION LEGISLATION": [],
-  "M11 AEROPLANE AERO. STRUCTURE & SYSTEM": [],
-  "M15 GAS TURBINE ENGINE": [],
-  "M17 PROPELLER": []
+  "M1 MATHEMATICS": [], "M2 PHYSICS": [], "M3 ELECTRICAL FUNDAMENTAL": [],
+  "M4 ELECTRONICS FUNDAMENTAL": [], "M5 DIGITAL TECHNIQUES / ELECTRONIC INSTRUMENT SYSTEMS": [],
+  "M6 MATERIAL & HARDWARE": [], "M7 MAINTENANCE PRACTICE": [], "M8 AERODYNAMICS": [],
+  "M9 HUMAN FACTOR": [], "M10 AVIATION LEGISLATION": [], "M11 AEROPLANE AERO. STRUCTURE & SYSTEM": [],
+  "M15 GAS TURBINE ENGINE": [], "M17 PROPELLER": []
 };
 
-/* ============ 核心變數設定 ============ */
-let currentUnit = "";
-let questions = [];
-let currentIdx = 0;
-let userAnswers = {};
-let timerInterval = null;
+/* ============ 全域狀態控制變數 ============ */
+let currentUnit = ""; 
+let questions = []; 
+let currentIdx = 0; 
+let userAnswers = {}; 
+let timerInterval = null; 
 let currentReviewQuestions = [];
+let currentMode = "exam"; // 記錄模式路由：exam 或者是 practice
 
-// DOM 元素
+/* ============ 抓取 DOM 節點 ============ */
 const unitScreen = document.getElementById('unitScreen');
 const countScreen = document.getElementById('countScreen');
 const quizScreen = document.getElementById('quizScreen');
+const practiceScreen = document.getElementById('practiceScreen');
 const resultScreen = document.getElementById('resultScreen');
 
 const unitList = document.getElementById('unitList');
@@ -421,64 +482,52 @@ const backBtn = document.getElementById('backBtn');
 const retryBtn = document.getElementById('retryBtn');
 const avatarBtn = document.getElementById('avatarBtn');
 
-// 彈窗
+// 練習模式專屬節點
+const practiceRetryBtn = document.getElementById('practiceRetryBtn');
+const practiceBackBtn = document.getElementById('practiceBackBtn');
+const practiceContainer = document.getElementById('practiceContainer');
+
 const modalOverlay = document.getElementById('modalOverlay');
 const modalMessage = document.getElementById('modalMessage');
 const modalCancelBtn = document.getElementById('modalCancelBtn');
 const modalConfirmBtn = document.getElementById('modalConfirmBtn');
 let modalResolveFn = null;
 
-/* ============ 基礎初始化 ============ */
+/* ============ 初始化核心程式邏輯 ============ */
 function init() {
-  // 將外部讀取進來的全域題目同步注入到 QUESTION_BANK 中
-  if (window.M15_DATA && window.M15_DATA.length > 0) {
-    QUESTION_BANK["M15 GAS TURBINE ENGINE"] = window.M15_DATA;
-  }
-  if (window.M11_DATA && window.M11_DATA.length > 0) {
-    QUESTION_BANK["M11 AEROPLANE AERO. STRUCTURE & SYSTEM"] = window.M11_DATA;
-  }
+  // 自動適配掛載資料
+  if (window.M15_DATA && window.M15_DATA.length > 0) QUESTION_BANK["M15 GAS TURBINE ENGINE"] = window.M15_DATA;
+  if (window.M11_DATA && window.M11_DATA.length > 0) QUESTION_BANK["M11 AEROPLANE AERO. STRUCTURE & SYSTEM"] = window.M11_DATA;
 
   renderUnitList();
   
-  countBackBtn.addEventListener('click', () => {
-    switchScreen(countScreen, unitScreen);
-  });
-
+  countBackBtn.addEventListener('click', () => switchScreen(countScreen, unitScreen));
   countStartBtn.addEventListener('click', startQuiz);
-  
   prevBtn.addEventListener('click', () => navigate(-1));
   nextBtn.addEventListener('click', () => navigate(1));
   
   finishBtn.addEventListener('click', () => {
-    showModal("您確定要結束作答並送出考卷嗎？").then(confirm => {
-      if(confirm) doFinishQuiz();
-    });
+    showModal("您確定要結束作答並送出考卷嗎？").then(confirm => { if(confirm) doFinishQuiz(); });
   });
 
   findUnansweredBtn.addEventListener('click', jumpToFirstUnanswered);
+  jumpSelect.addEventListener('change', (e) => { currentIdx = parseInt(e.target.value, 10); showQuestion(currentIdx); });
   
-  jumpSelect.addEventListener('change', (e) => {
-    currentIdx = parseInt(e.target.value, 10);
-    showQuestion(currentIdx);
-  });
+  backBtn.addEventListener('click', () => switchScreen(resultScreen, unitScreen));
+  retryBtn.addEventListener('click', () => { userAnswers = {}; startQuizDirectly(); });
 
-  backBtn.addEventListener('click', () => {
-    switchScreen(resultScreen, unitScreen);
-  });
+  // 綁定練習瀑布流的專屬控制鈕
+  practiceRetryBtn.addEventListener('click', () => { userAnswers = {}; startQuizDirectly(); });
+  practiceBackBtn.addEventListener('click', () => switchScreen(practiceScreen, unitScreen));
 
-  retryBtn.addEventListener('click', () => {
-    userAnswers = {};
-    startQuizDirectly();
-  });
-
+  // 頂部大頭貼返回邏輯
   avatarBtn.addEventListener('click', () => {
     if(!quizScreen.classList.contains('hidden')) {
       showModal("目前正在測驗中，確定要強行返回單元選擇嗎？(作答紀錄將消失)").then(confirm => {
-        if(confirm) {
-          clearInterval(timerInterval);
-          switchScreen(quizScreen, unitScreen);
-        }
+        if(confirm) { clearInterval(timerInterval); switchScreen(quizScreen, unitScreen); }
       });
+    } else if(!practiceScreen.classList.contains('hidden')) {
+      switchScreen(practiceScreen, unitScreen);
     } else if(!countScreen.classList.contains('hidden')) {
       switchScreen(countScreen, unitScreen);
     } else if(!resultScreen.classList.contains('hidden')) {
@@ -487,13 +536,8 @@ function init() {
   });
 }
 
-function switchScreen(from, to) {
-  from.classList.add('hidden');
-  to.classList.remove('hidden');
-  window.scrollTo(0,0);
-}
+function switchScreen(from, to) { from.classList.add('hidden'); to.classList.remove('hidden'); window.scrollTo(0,0); }
 
-/* ============ 渲染單元選單 ============ */
 function renderUnitList() {
   unitList.innerHTML = "";
   Object.keys(QUESTION_BANK).forEach(name => {
@@ -501,7 +545,6 @@ function renderUnitList() {
     const config = UNIT_CONFIG[name] || { defaultCount: 30 };
     const div = document.createElement('div');
     div.className = "unit-item" + (arr.length === 0 ? " empty" : "");
-    
     div.innerHTML = `
       <div>
         <div class="unit-name">${name}</div>
@@ -509,11 +552,8 @@ function renderUnitList() {
       </div>
       <button class="btn-start" ${arr.length === 0 ? "disabled" : ""}>選擇此單元</button>
     `;
-    
     if(arr.length > 0) {
-      div.querySelector('.btn-start').addEventListener('click', () => {
-        setupCountScreen(name);
-      });
+      div.querySelector('.btn-start').addEventListener('click', () => setupCountScreen(name));
     }
     unitList.appendChild(div);
   });
@@ -523,18 +563,17 @@ function setupCountScreen(unitName) {
   currentUnit = unitName;
   const totalAvailable = QUESTION_BANK[unitName].length;
   const config = UNIT_CONFIG[unitName] || { defaultCount: 30 };
-
   countPanelHead.textContent = `設定測驗題數 - ${unitName}`;
   maxAvailableText.textContent = totalAvailable;
   countInput.max = totalAvailable;
-  
   countInput.value = Math.min(totalAvailable, config.defaultCount); 
-  
   switchScreen(unitScreen, countScreen);
 }
 
-/* ============ 隨機抽取題目並開始 ============ */
 function startQuiz() {
+  // 記錄使用者所選取的作答模式
+  currentMode = document.querySelector('input[name="quizMode"]:checked').value;
+
   const total = QUESTION_BANK[currentUnit].length;
   let val = parseInt(countInput.value, 10);
   if(isNaN(val) || val < 1) val = 1;
@@ -546,69 +585,150 @@ function startQuiz() {
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
   questions = pool.slice(0, val);
-  
   userAnswers = {};
   startQuizDirectly();
 }
 
 function startQuizDirectly() {
-  if (resultScreen.classList.contains('hidden') === false) {
-    resultScreen.classList.add('hidden');
-  }
+  if (!resultScreen.classList.contains('hidden')) resultScreen.classList.add('hidden');
   countScreen.classList.add('hidden');
-  quizScreen.classList.remove('hidden');
   
-  currentIdx = 0;
-  
-  unitNameCell.textContent = currentUnit;
-  totalCountEl.textContent = questions.length;
-  updateUnansweredCount();
-  
-  buildJumpSelect();
-  updateNavBar();
-  showQuestion(currentIdx);
-  
-  const limitSec = Math.floor(questions.length * 1.25 * 60);
-  startTimer(limitSec);
+  if (currentMode === 'practice') {
+    // 進入優化版：練習模式瀑布流畫面
+    quizScreen.classList.add('hidden');
+    practiceScreen.classList.remove('hidden');
+    document.getElementById('practiceUnitTitle').textContent = `練習單元：${currentUnit}`;
+    document.getElementById('practiceProgressText').textContent = `總題數：${questions.length} 題`;
+    renderPracticeWaterfall();
+  } else {
+    // 進入原有：考試模式單題切換畫面
+    practiceScreen.classList.add('hidden');
+    quizScreen.classList.remove('hidden');
+    currentIdx = 0;
+    unitNameCell.textContent = currentUnit;
+    totalCountEl.textContent = questions.length;
+    updateUnansweredCount();
+    buildJumpSelect();
+    updateNavBar();
+    showQuestion(currentIdx);
+    const limitSec = Math.floor(questions.length * 1.25 * 60);
+    startTimer(limitSec);
+  }
+  window.scrollTo(0,0);
 }
 
-/* ============ 題目切換與渲染 ============ */
+/* ============ ⚡ 核心功能：練習模式瀑布流生成與即時變色反饋 ⚡ ============ */
+function renderPracticeWaterfall() {
+  practiceContainer.innerHTML = "";
+  const optionLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+  questions.forEach((q, idx) => {
+    const card = document.createElement('div');
+    card.className = 'practice-card';
+
+    const head = document.createElement('div');
+    head.className = 'practice-head';
+    head.innerHTML = `<span>第 ${idx + 1} 題 / 共 ${questions.length} 題</span><span>題庫編號: No.${q.id}</span>`;
+    card.appendChild(head);
+
+    const body = document.createElement('div');
+    body.className = 'practice-body';
+    
+    const qText = document.createElement('div');
+    qText.className = 'practice-question';
+    qText.innerHTML = q.question.replace(/\n/g, '<br>');
+    body.appendChild(qText);
+
+    const optsContainer = document.createElement('div');
+
+    q.options.forEach((optText, optIndex) => {
+      if (!optText || optText.trim() === "") return;
+      const m = optText.match(/^\(([A-Za-z])\)/);
+      const letter = m ? m[1].toUpperCase() : optionLetters[optIndex];
+
+      const row = document.createElement('div');
+      row.className = 'practice-option-row';
+      row.id = `opt_row_${q.id}_${letter}`;
+
+      const radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = `practice_radio_${q.id}`;
+      radio.value = letter;
+
+      const label = document.createElement('label');
+      label.innerHTML = `<span>${optText.replace(/\n/g, '<br>')}</span><span class="practice-badge-right" style="display:none;"></span>`;
+
+      // 點擊選項時的對錯染色邏輯
+      const pHandler = () => {
+        radio.checked = true;
+        userAnswers[q.id] = letter;
+
+        // 即時迴圈更新該題所有的選項樣式
+        q.options.forEach((oText, oIndex) => {
+          if (!oText || oText.trim() === "") return;
+          const ltr = oText.match(/^\(([A-Za-z])\)/) ? oText.match(/^\(([A-Za-z])\)/)[1].toUpperCase() : optionLetters[oIndex];
+          const targetRow = document.getElementById(`opt_row_${q.id}_${ltr}`);
+          if (!targetRow) return;
+
+          const badge = targetRow.querySelector('.practice-badge-right');
+          targetRow.className = 'practice-option-row'; // 還原乾淨樣式
+          badge.style.display = 'none';
+
+          // A. 只要是標準正解，一律上綠底與標籤提示
+          if (ltr === q.answer) {
+            targetRow.classList.add('state-correct');
+            badge.textContent = ltr === letter ? '正確答案・您的選擇' : '正確答案';
+            badge.style.display = 'block';
+          }
+          // B. 點錯的選項，一律上紅底與標籤提示
+          else if (ltr === letter && letter !== q.answer) {
+            targetRow.classList.add('state-wrong');
+            badge.textContent = '您的選擇';
+            badge.style.display = 'block';
+          }
+        });
+      };
+
+      row.addEventListener('click', pHandler);
+      radio.addEventListener('click', (e) => { e.stopPropagation(); pHandler(); });
+
+      row.appendChild(radio);
+      row.appendChild(label);
+      optsContainer.appendChild(row);
+    });
+
+    body.appendChild(optsContainer);
+    card.appendChild(body);
+    practiceContainer.appendChild(card);
+  });
+}
+
+/* ============ 傳統考試模式單題切換渲染 ============ */
 function showQuestion(idx) {
   if(idx < 0 || idx >= questions.length) return;
   currentIdx = idx;
   updateNavBar();
-  
   const q = questions[idx];
   qNoCell.textContent = `第 ${idx + 1} 題 / 共 ${questions.length} 題 (題庫編號: No.${q.id})`;
   questionText.innerHTML = q.question.replace(/\n/g, '<br>');
-  
   const userAns = userAnswers[q.id] || "";
   answerCell.textContent = userAns ? userAns : "尚未作答";
-  
-optionsArea.innerHTML = "";
-  // 建立標準英文字母對照表，確保就算題目沒有 (A) 也能正確對應
+  optionsArea.innerHTML = "";
   const optionLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
   q.options.forEach((optText, index) => {
     if (!optText || optText.trim() === "") return;
-
-    // 優先讀取題目自帶的 (A)，若無則依序給予字母
     const m = optText.match(/^\(([A-Za-z])\)/);
     const letter = m ? m[1].toUpperCase() : optionLetters[index];
-    
     const row = document.createElement('div');
     row.className = "option-row";
-    
     const radio = document.createElement('input');
     radio.type = "radio";
-    // ✨ 關鍵修正：加上隨機陣列的當前 index 隔離，防止不同題目的 Radio 群組在網頁中互相干擾
     radio.name = `q_opt_idx_${currentIdx}_${q.id}`;
     radio.value = letter;
     if(letter === userAns) radio.checked = true;
-    
     const label = document.createElement('label');
     label.innerHTML = optText.replace(/\n/g, '<br>');
-    
     const handler = () => {
       radio.checked = true;
       userAnswers[q.id] = letter;
@@ -616,39 +736,17 @@ optionsArea.innerHTML = "";
       updateUnansweredCount();
       buildJumpSelect();
     };
-    
     row.addEventListener('click', handler);
-    radio.addEventListener('click', (e) => {
-      e.stopPropagation();
-      handler();
-    });
-    
+    radio.addEventListener('click', (e) => { e.stopPropagation(); handler(); });
     row.appendChild(radio);
     row.appendChild(label);
     optionsArea.appendChild(row);
   });
 }
 
-function navigate(dir) {
-  const target = currentIdx + dir;
-  if(target >= 0 && target < questions.length) {
-    showQuestion(target);
-  }
-}
-
-function updateNavBar() {
-  prevBtn.disabled = (currentIdx === 0);
-  nextBtn.disabled = (currentIdx === questions.length - 1);
-  jumpSelect.value = currentIdx;
-}
-
-function updateUnansweredCount() {
-  let count = 0;
-  questions.forEach(q => {
-    if(!userAnswers[q.id]) count++;
-  });
-  unansweredCountEl.textContent = count;
-}
+function navigate(dir) { const target = currentIdx + dir; if(target >= 0 && target < questions.length) showQuestion(target); }
+function updateNavBar() { prevBtn.disabled = (currentIdx === 0); nextBtn.disabled = (currentIdx === questions.length - 1); jumpSelect.value = currentIdx; }
+function updateUnansweredCount() { let count = 0; questions.forEach(q => { if(!userAnswers[q.id]) count++; }); unansweredCountEl.textContent = count; }
 
 function buildJumpSelect() {
   jumpSelect.innerHTML = "";
@@ -664,196 +762,85 @@ function buildJumpSelect() {
 
 function jumpToFirstUnanswered() {
   const target = questions.findIndex(q => !userAnswers[q.id]);
-  if(target !== -1) {
-    showQuestion(target);
-  } else {
-    showModal("所有題目皆已作答完畢！", true);
-  }
+  if(target !== -1) showQuestion(target); else showModal("所有題目皆已作答完畢！", true);
 }
 
-/* ============ 計時器模組 ============ */
 function startTimer(durationSec) {
   if(timerInterval) clearInterval(timerInterval);
   let remain = durationSec;
-  
   function updateTimerText() {
     if(remain <= 0) {
-      timerEl.textContent = "00:00:00";
-      timerEl.classList.remove('warn');
-      clearInterval(timerInterval);
-      showModal("作答時間已到！系統將自動為您交卷。", true).then(() => {
-        doFinishQuiz();
-      });
+      timerEl.textContent = "00:00:00"; timerEl.classList.remove('warn'); clearInterval(timerInterval);
+      showModal("作答時間已到！系統將自動為您交卷。", true).then(() => doFinishQuiz());
       return;
     }
-    
-    let h = Math.floor(remain / 3600);
-    let m = Math.floor((remain % 3600) / 60);
-    let s = remain % 60;
-    
-    timerEl.textContent = 
-      (h < 10 ? "0"+h : h) + ":" + 
-      (m < 10 ? "0"+m : m) + ":" + 
-      (s < 10 ? "0"+s : s);
-      
-    if(remain <= 60) {
-      timerEl.classList.add('warn');
-    } else {
-      timerEl.classList.remove('warn');
-    }
+    let h = Math.floor(remain / 3600); let m = Math.floor((remain % 3600) / 60); let s = remain % 60;
+    timerEl.textContent = (h < 10 ? "0"+h : h) + ":" + (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+    if(remain <= 60) timerEl.classList.add('warn'); else timerEl.classList.remove('warn');
   }
-  
-  remain--;
-  updateTimerText();
-  timerInterval = setInterval(() => {
-    remain--;
-    updateTimerText();
-  }, 1000);
+  remain--; updateTimerText();
+  timerInterval = setInterval(() => { remain--; updateTimerText(); }, 1000);
 }
 
-/* ============ 結束測驗與結果渲染 ============ */
 function doFinishQuiz() {
-  clearInterval(timerInterval);
-  quizScreen.classList.add('hidden');
-  resultScreen.classList.remove('hidden');
-  window.scrollTo(0,0);
-
+  clearInterval(timerInterval); quizScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); window.scrollTo(0,0);
   let correctCount = 0;
-  
   currentReviewQuestions = questions.map(q => {
-    const userAns = userAnswers[q.id] || "";
-    const isCorrect = (userAns === q.answer);
-    if(isCorrect) correctCount++;
-    
-    let badgeClass = 'blank';
-    let badgeLabel = '未答';
-    if(userAns) {
-      if(isCorrect) {
-        badgeClass = 'ok';
-        badgeLabel = '正確';
-      } else {
-        badgeClass = 'ng';
-        badgeLabel = '錯誤';
-      }
-    }
-    
-    return {
-      ...q,
-      userAns: userAns,
-      isCorrect: isCorrect,
-      badgeClass: badgeClass,
-      badgeLabel: badgeLabel
-    };
+    const userAns = userAnswers[q.id] || ""; const isCorrect = (userAns === q.answer); if(isCorrect) correctCount++;
+    let badgeClass = 'blank'; let badgeLabel = '未答';
+    if(userAns) { if(isCorrect) { badgeClass = 'ok'; badgeLabel = '正確'; } else { badgeClass = 'ng'; badgeLabel = '錯誤'; } }
+    return { ...q, userAns: userAns, isCorrect: isCorrect, badgeClass: badgeClass, badgeLabel: badgeLabel };
   });
-
   const score = questions.length > 0 ? Math.round((correctCount / questions.length) * 1000) / 10 : 0;
-  const scoreValueEl = document.getElementById('scoreValue');
-  const scoreSubEl = document.getElementById('scoreSub');
-  
-  scoreValueEl.textContent = score;
-  scoreValueEl.classList.remove('fail');
-  if(score < 70) scoreValueEl.classList.add('fail');
+  const scoreValueEl = document.getElementById('scoreValue'); const scoreSubEl = document.getElementById('scoreSub');
+  scoreValueEl.textContent = score; scoreValueEl.classList.remove('fail'); if(score < 70) scoreValueEl.classList.add('fail');
   scoreSubEl.textContent = `總題數：${questions.length} 題 / 答對：${correctCount} 題`;
-
-  document.getElementById('filterAllBtn').classList.add('active');
-  document.getElementById('filterWrongBtn').classList.remove('active');
-  
+  document.getElementById('filterAllBtn').classList.add('active'); document.getElementById('filterWrongBtn').classList.remove('active');
   renderReviewList(currentReviewQuestions);
 }
 
 function renderReviewList(targetQuestions) {
-  const reviewList = document.getElementById('reviewList');
-  reviewList.innerHTML = "";
-
-  if(targetQuestions.length === 0) {
-    reviewList.innerHTML = `<div class="filter-empty-hint">目前沒有符合篩選條件的題目。</div>`;
-    return;
-  }
+  const reviewList = document.getElementById('reviewList'); reviewList.innerHTML = "";
+  if(targetQuestions.length === 0) { reviewList.innerHTML = `<div class="filter-empty-hint">目前沒有符合篩選條件的題目。</div>`; return; }
 
   targetQuestions.forEach((q, idx) => {
-    const card = document.createElement('div');
-    card.className = 'review-card';
-
-// 建立標準英文字母對照表
-    const optionLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
-
+    const card = document.createElement('div'); card.className = 'review-card'; const optionLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
     const optionsHtml = q.options.map((optText, index) => {
       if (!optText || optText.trim() === "") return '';
-
-      // 優先讀取題目自帶的 (A)，若無則依序給予字母
-      const m = optText.match(/^\(([A-Za-z])\)/);
-      const letter = m ? m[1].toUpperCase() : optionLetters[index];
-      
-      const isAnswerOption = (letter === q.answer);
-      const isUserWrongPick = (letter === q.userAns && !q.isCorrect);
-      
-      let cls = 'review-option';
-      let tagHtml = '';
-      if (isAnswerOption){
-        cls += ' is-correct';
-        tagHtml = `<span class="opt-tag">正確答案${letter === q.userAns ? '・您的選擇' : ''}</span>`;
-      } else if (isUserWrongPick){
-        cls += ' is-wrong-selected';
-        tagHtml = `<span class="opt-tag">您的選擇</span>`;
-      }
+      const m = optText.match(/^\(([A-Za-z])\)/); const letter = m ? m[1].toUpperCase() : optionLetters[index];
+      const isAnswerOption = (letter === q.answer); const isUserWrongPick = (letter === q.userAns && !q.isCorrect);
+      let cls = 'review-option'; let tagHtml = '';
+      if (isAnswerOption){ cls += ' is-correct'; tagHtml = `<span class="opt-tag">正確答案${letter === q.userAns ? '・您的選擇' : ''}</span>`; }
+      else if (isUserWrongPick){ cls += ' is-wrong-selected'; tagHtml = `<span class="opt-tag">您的選擇</span>`; }
       return `<div class="${cls}"><span>${optText.replace(/\n/g, '<br>')}</span>${tagHtml}</div>`;
     }).join('');
 
     card.innerHTML = `
-      <div class="review-head">
-        <span>第 ${idx + 1} 題（No.${q.id}）</span>
-        <span class="review-badge ${q.badgeClass}">${q.badgeLabel}</span>
-      </div>
-      <div class="review-body">
-        <div class="review-question">${q.question.replace(/\n/g, '<br>')}</div>
-        ${optionsHtml}
-      </div>
+      <div class="review-head"><span>第 ${idx + 1} 題（No.${q.id}）</span><span class="review-badge ${q.badgeClass}">${q.badgeLabel}</span></div>
+      <div class="review-body"><div class="review-question">${q.question.replace(/\n/g, '<br>')}</div>${optionsHtml}</div>
     `;
     reviewList.appendChild(card);
   });
 }
 
 function filterReviewList(type) {
-  const allBtn = document.getElementById('filterAllBtn');
-  const wrongBtn = document.getElementById('filterWrongBtn');
-
+  const allBtn = document.getElementById('filterAllBtn'); const wrongBtn = document.getElementById('filterWrongBtn');
   if (type === 'wrong') {
-    allBtn.classList.remove('active');
-    wrongBtn.classList.add('active');
-    const wrongQuestions = currentReviewQuestions.filter(q => q.isCorrect === false);
-    renderReviewList(wrongQuestions);
+    allBtn.classList.remove('active'); wrongBtn.classList.add('active');
+    renderReviewList(currentReviewQuestions.filter(q => !q.isCorrect));
   } else {
-    wrongBtn.classList.remove('active');
-    allBtn.classList.add('active');
+    wrongBtn.classList.remove('active'); allBtn.classList.add('active');
     renderReviewList(currentReviewQuestions);
   }
 }
 
-/* ============ 自訂彈窗模組 ============ */
 function showModal(msg, alertOnly = false) {
-  modalMessage.textContent = msg;
-  modalOverlay.classList.remove('hidden');
-  
-  if(alertOnly) {
-    modalCancelBtn.classList.add('hidden');
-  } else {
-    modalCancelBtn.classList.remove('hidden');
-  }
-  
-  return new Promise((resolve) => {
-    modalResolveFn = resolve;
-  });
+  modalMessage.textContent = msg; modalOverlay.classList.remove('hidden');
+  if(alertOnly) modalCancelBtn.classList.add('hidden'); else modalCancelBtn.classList.remove('hidden');
+  return new Promise((resolve) => { modalResolveFn = resolve; });
 }
-
-modalConfirmBtn.addEventListener('click', () => {
-  modalOverlay.classList.add('hidden');
-  if(modalResolveFn) modalResolveFn(true);
-});
-
-modalCancelBtn.addEventListener('click', () => {
-  modalOverlay.classList.add('hidden');
-  if(modalResolveFn) modalResolveFn(false);
-});
+modalConfirmBtn.addEventListener('click', () => { modalOverlay.classList.add('hidden'); if(modalResolveFn) modalResolveFn(true); });
+modalCancelBtn.addEventListener('click', () => { modalOverlay.classList.add('hidden'); if(modalResolveFn) modalResolveFn(false); });
 
 window.addEventListener('DOMContentLoaded', init);
 </script>
