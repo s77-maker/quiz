@@ -524,7 +524,7 @@ window.M15_DATA = [
   { "id": 523, "question": "現代燃料控制系統的兩個基本組是什麼？", "options": [ "液壓機械和電子", "氣動和壓力", "自動和手動" ], "answer": "A" },
   { "id": 524, "question": "什麼直接提供HP燃油截止閥的關閉？", "options": [ "主槓桿關閉位置", "ECU", "HMU" ], "answer": "A" },
   { "id": 525, "question": "什麼被認為是燃氣渦輪發動機燃料系統的“核心”？", "options": [ "燃油控制", "燃料電池泵", "燃油交叉進料閥" ], "answer": "A" },
-  { "id": 526, "question": "在燃油系統中安裝HP燃油泵和BPC之間的衰減器的目的是什麼？", "options": [ "It ensures that contaminant-free fuel is supplied to the BC half-ball valve.", "It restricts the pressure supply to the BPC.", "它可以抑制燃料輸送到BPC的脈動。" ], "answer": "C" },
+  { "id": 526, "question": "在燃油系統中安裝HP燃油泵和BPC之間的衰減器的目的是什麼？", "options": [ "它確保向BC半球閥提供無異物的燃料。", "它限制了BPC的壓力供給。", "它可以抑制燃料輸送到BPC的脈動。" ], "answer": "C" },
   { "id": 527, "question": "渦輪發動機雙相燃料噴嘴中的分流器的用途是什麼？", "options": [ "如果主要流量堵塞或受到限制，則允許備用燃料流。", "建立主要和輔助的燃料供應。", "為引氣提供流動路徑，有助於燃料霧化。" ], "answer": "B" },
   { "id": 528, "question": "LP泵的用途是什麼？", "options": [ "打開油門時確保快速加速。", "如果HP燃油泵出現故障，確保發動機繼續運轉。", "防止HP燃油泵氣蝕。" ], "answer": "C" },
   { "id": 529, "question": "EEC在正常運行期間供電的是什麼？", "options": [ "專用發電機", "飛機電池", "主要飛機公共汽車" ], "answer": "A" },
